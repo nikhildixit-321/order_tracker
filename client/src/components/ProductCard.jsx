@@ -1,12 +1,16 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 const ProductCard = ({ product }) => {
+      const navigate = useNavigate();
+     const handleBuyNow = ()=>{
+        navigate("/checkout",{state:{productdetails:product}});  
+     };
   return (
     <div className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 flex flex-col h-full">
       <div className="relative pt-[100%] bg-white overflow-hidden">
         <img 
-          src={product.thumbnail} 
-          alt={product.title} 
+          src={product?.thumbnail || product?.images?.[0] || "https://via.placeholder.com/300"} 
+          alt={product?.title || "Product Image"} 
           className="absolute inset-0 w-full h-full object-contain p-6 group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-semibold text-gray-600 shadow-sm border border-gray-100 uppercase tracking-wider">
@@ -21,7 +25,7 @@ const ProductCard = ({ product }) => {
           <span className="text-2xl font-bold text-amber-600">
             ${product.price.toFixed(2)}
           </span>
-          <button className="bg-slate-900 hover:bg-slate-800 text-white rounded-full p-2.5 transition-colors shadow-sm" title="Add to Cart">
+          <button onClick={handleBuyNow} className="bg-slate-900 hover:bg-slate-800 text-white rounded-full p-2.5 transition-colors shadow-sm" title="Add to Cart">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
