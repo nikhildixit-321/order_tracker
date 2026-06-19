@@ -1,12 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 const ProductCard = ({ product }) => {
-      const navigate = useNavigate();
-     const handleBuyNow = ()=>{
-        navigate("/checkout",{state:{productdetails:product}});  
-     };
+  const navigate = useNavigate();
+  const handleBuyNow = () => {
+    // Navigate to Product Details page first
+    navigate(`/product/${product.id}`, { state: { productdetails: product } });
+  };
   return (
-    <div className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 flex flex-col h-full">
+    <div className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 flex flex-col h-full" onClick={handleBuyNow}>
       <div className="relative pt-[100%] bg-white overflow-hidden">
         <img 
           src={product?.thumbnail || product?.images?.[0] || "https://via.placeholder.com/300"} 

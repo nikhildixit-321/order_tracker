@@ -9,9 +9,9 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           
           {/* Logo Section */}
-          <div className="flex-shrink-0 flex items-center cursor-pointer">
+          <div  className="flex-shrink-0 flex items-center cursor-pointer">
             <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600 tracking-tight">
-              Order Tracker
+             <Link to="/"> Order Tracker</Link>
             </h2>
           </div>
 
