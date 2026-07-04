@@ -1,14 +1,39 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useState,useEffect } from "react";
+import Login from "@/pages/Login";
+import { SignupForm } from "@/pages/Signup";
 
 
 const Navbar = () => {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [products, setProducts] = useState([]);
+  
+  useEffect(() => {
+      fetch("https://dummyjson.com/products?limit=20")
+        .then((res) => res.json())
+        .then((data) => {
+          setProducts(data.products);
+          
+        })
+        .catch((err) => {
+          console.error("Error fetching products:", err);
+          
+        });
+    }, []);
+  const filtered = products.filter(p =>
+        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.category.toLowerCase().includes(searchQuery.toLowerCase())
+      );
   return (
+    <>
     <nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
-          {/* Logo Section */}
+         
           <div  className="flex-shrink-0 flex items-center cursor-pointer">
             <h2 className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600 tracking-tight">
              <Link to="/"> Order Tracker</Link>
@@ -36,6 +61,8 @@ const Navbar = () => {
               </div>
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search for your order..."
                 className="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-full leading-5 bg-gray-50 placeholder-gray-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all duration-300 sm:text-sm"
               />
@@ -47,20 +74,29 @@ const Navbar = () => {
               <span><Link to="/track"> Track Order  </Link></span>
             </div>
           </div>
-
+          
           {/* Right Section: Auth Buttons */}
           <div className="flex items-center gap-4">
-            <button className="hidden sm:block text-gray-600 hover:text-amber-600 font-semibold px-2 py-2 transition-colors duration-200">
-              Login
-            </button>
-            <button className="bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-full shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
+            <button
+                onClick={() => setIsLoginOpen(true)}
+                className="hidden sm:block text-gray-600 hover:text-amber-600 font-semibold px-2 py-2 rounded-full transition-colors duration-200"
+              >
+                Login
+              </button>
+            <button
+              onClick={() => setIsSignupOpen(true)}
+              className="hidden sm:block text-gray-600 hover:text-amber-600 font-semibold px-2 py-2 transition-colors duration-200"
+            >
               Sign Up
             </button>
           </div>
-
         </div>
       </div>
     </nav>
+  <Login isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} onOpenSignUp={() => setIsSignupOpen(true)} />
+  <SignupForm isOpen={isSignupOpen} onClose={() => setIsSignupOpen(false)} onOpenLogin={() => setIsLoginOpen(true)} />
+
+    </>
   );
 };
 

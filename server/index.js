@@ -32,7 +32,7 @@ const io = new Server(server, {
 const activeSimulations = {};
 
 // API Route to Create Order
-app.post('/api/orders', (req, res) => {
+app.post('/api/orders', async  (req, res) => {
     // Generate a random order ID
     const orderId = Math.floor(Math.random() * 1000000).toString();
     
