@@ -1,32 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import Login from "@/pages/Login";
 import { SignupForm } from "@/pages/Signup";
 
 
-const Navbar = () => {
+const Navbar = ({searchQuery,setSearchQuery}) => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [products, setProducts] = useState([]);
+
   
-  useEffect(() => {
-      fetch("https://dummyjson.com/products?limit=20")
-        .then((res) => res.json())
-        .then((data) => {
-          setProducts(data.products);
-          
-        })
-        .catch((err) => {
-          console.error("Error fetching products:", err);
-          
-        });
-    }, []);
-  const filtered = products.filter(p =>
-        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.category.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+ 
   return (
     <>
     <nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100">
@@ -62,7 +46,7 @@ const Navbar = () => {
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e)=>setSearchQuery(e.target.value)}
                 placeholder="Search for your order..."
                 className="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-full leading-5 bg-gray-50 placeholder-gray-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all duration-300 sm:text-sm"
               />
